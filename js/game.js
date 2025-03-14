@@ -34,7 +34,7 @@ var canvas = document.getElementById("canvas");
 var ctx = canvas.getContext("2d");
 
 
-cell_size = 20;
+cell_size = 100;
 switch (SHAPE){
     case 3:
         canvas.width  = cell_size * WIDTH / 2 + cell_size / 2;
@@ -87,24 +87,36 @@ canvas.onmousedown = (ev) => {
     let x = ev.offsetX;
     let y = ev.offsetY;
 
+
     for (let i = 0; i < data.pathes.length; i++) {
         if (ctx.isPointInPath(data.pathes[i], x, y)) {
             
             let foundIndex = choicedColors.findIndex((element) => element == data.colors[i]);
             let color = choicedColors[(foundIndex + 1)%COLOR_COUNT];
             data.colors[i] = color;
+
             switch (SHAPE){
                 case 3:
 
                     break;
                 case 4:
-                    let
-                        n1 = data.coords.findIndex((element) => (data.coords[i].x == (element.x - 1)% WIDTH & data.coords[i].y == element.y)),
-                        n2 = data.coords.findIndex((element) => (data.coords[i].x == (element.x + 1)% WIDTH & data.coords[i].y == element.y)),
-                        n3 = data.coords.findIndex((element) => (data.coords[i].y == (element.y - 1)%HEIGHT & data.coords[i].x == element.x)),
-                        n4 = data.coords.findIndex((element) => (data.coords[i].y == (element.y + 1)%HEIGHT & data.coords[i].x == element.x));
                     
-                    [n1, n2, n3, n4].forEach( index =>{
+                    let n1, n2, n3, n4;
+                    data.coords.findIndex((element, index) => {
+                        if ((element.x == (data.coords[i].x + 1) % WIDTH) && (data.coords[i].y == element.y)){
+                            n1 = index;
+                        }
+                        if ((data.coords[i].x == (element.x + 1) % WIDTH) && (data.coords[i].y == element.y)){
+                            n2 = index;
+                        }
+                        if ((element.y == (data.coords[i].y + 1) % HEIGHT) && (data.coords[i].x == element.x)){
+                            n3 = index;
+                        }
+                        if ((data.coords[i].y == (element.y + 1) % HEIGHT) && (data.coords[i].x == element.x)){
+                            n4 = index;
+                        }
+                    });
+                    [n1, n2, n3, n4].forEach( index => {
                         foundIndex = choicedColors.findIndex((element) => element == data.colors[index]);
                         color = choicedColors[(foundIndex + 1)%COLOR_COUNT];
                         data.colors[index] = color;
@@ -121,7 +133,7 @@ canvas.onmousedown = (ev) => {
 
 canvas.onmouseup = (ev) => {
     if (check()){
-        alert("Головоломка собрана!");
+        // alert("Головоломка собрана!");
     }
 }
 
