@@ -85,7 +85,6 @@ canvas.onmousedown = (ev) => {
             let foundIndex = choicedColors.findIndex((element) => element == data.colors[i]);
             let color = choicedColors[(foundIndex + 1)%COLOR_COUNT];
             data.colors[i] = color;
-            document.title = `${data.coords[i].x}/${data.coords[i].y}`;
             switch (SHAPE){
                 case 3:
 
@@ -113,10 +112,10 @@ canvas.onmousedown = (ev) => {
                         return false;
                 return true;
             }
+            draw(); 
             if (check()){
                 alert("Головоломка собрана!");
             }
-            draw(); 
             break;
         };
     }
