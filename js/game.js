@@ -113,7 +113,7 @@ canvas.onmousedown = (ev) => {
                         return false;
                 return true;
             }
-            if check(){
+            if (check()){
                 alert("Головоломка собрана!");
             }
             draw(); 
