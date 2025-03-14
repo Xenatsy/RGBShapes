@@ -84,7 +84,7 @@ canvas.onmousedown = (ev) => {
             
             let foundIndex = choicedColors.findIndex((element) => element == data.colors[i]);
             let color = choicedColors[(foundIndex + 1)%COLOR_COUNT];
-            
+            data.colors[i] = color;
             document.title = `${data.coords[i].x}/${data.coords[i].y}`;
             switch (SHAPE){
                 case 3:
@@ -92,17 +92,16 @@ canvas.onmousedown = (ev) => {
                     break;
                 case 4:
                     let
-                        n1 = data.coords.findIndex((element)=> (data.coords[i].x == (element.x - 1)%WIDTH & data.coords[i].y == element.y)),
-                        n2 = data.coords.findIndex((element)=> (data.coords[i].x == (element.x + 1)%WIDTH & data.coords[i].y == element.y)),
-                        n3 = data.coords.findIndex((element)=> (data.coords[i].y == (element.y - 1)%HEIGHT & data.coords[i].x == element.x)),
-                        n4 = data.coords.findIndex((element)=> (data.coords[i].y == (element.y + 1)%HEIGHT & data.coords[i].x == element.x));
+                        n1 = data.coords.findIndex((element) => (data.coords[i].x == (element.x - 1)% WIDTH & data.coords[i].y == element.y)),
+                        n2 = data.coords.findIndex((element) => (data.coords[i].x == (element.x + 1)% WIDTH & data.coords[i].y == element.y)),
+                        n3 = data.coords.findIndex((element) => (data.coords[i].y == (element.y - 1)%HEIGHT & data.coords[i].x == element.x)),
+                        n4 = data.coords.findIndex((element) => (data.coords[i].y == (element.y + 1)%HEIGHT & data.coords[i].x == element.x));
                     
-                    data.colors[i] = color;
-                    data.colors[n1] = color;
-                    data.colors[n2] = color;
-                    data.colors[n3] = color;
-                    data.colors[n4] = color;
-
+                    [n1, n2, n3, n4].forEach( index =>{
+                        foundIndex = choicedColors.findIndex((element) => element == data.colors[index]);
+                        color = choicedColors[(foundIndex + 1)%COLOR_COUNT];
+                        data.colors[index] = color;
+                    } );
                     break;
 
             }

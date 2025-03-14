@@ -11,7 +11,6 @@ function go(){
     localStorage.setItem("colors", colors);
 
     if ((0 == width) || (0 == height) || (0 == colors) || (shape == 0)){
-        let tip = document.getElementById("tip");
         alert("Enter the full data!");
     } else {
         if (shape == 4) {
