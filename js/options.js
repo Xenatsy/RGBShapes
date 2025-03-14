@@ -12,19 +12,13 @@ function go(){
 
     if ((0 == width) || (0 == height) || (0 == colors) || (shape == 0)){
         let tip = document.getElementById("tip");
-        tip.innerText = "Enter the full data!";
-        tip.style.backgroundColor = "#F00";
-        tip.style.color = "#000";
-
-
+        alert("Enter the full data!");
     } else {
         if (shape == 4) {
             window.location = "game.html";
         }
         else {
-            tip.innerText = "This mode is not yet available...";
-            tip.style.backgroundColor = "#FF0";
-            tip.style.color = "#000";
+            alert("This mode is not yet available...");
         }
     }
 }
