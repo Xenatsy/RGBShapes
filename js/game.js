@@ -34,7 +34,7 @@ var canvas = document.getElementById("canvas");
 var ctx = canvas.getContext("2d");
 
 
-cell_size = 150;
+cell_size = 20;
 switch (SHAPE){
     case 3:
         canvas.width  = cell_size * WIDTH / 2 + cell_size / 2;
