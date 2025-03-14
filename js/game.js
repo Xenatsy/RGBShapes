@@ -75,11 +75,19 @@ for (let x = 0; x < WIDTH; x++) {
     }
 }
 
+function check(){
+    examenCell = data.colors[0];
+    for (let i=1; i<data.colors.length; i++)
+        if (examenCell != data.colors[i])
+            return false;
+    return true;
+}
+
 canvas.onmousedown = (ev) => {
     let x = ev.offsetX;
     let y = ev.offsetY;
 
-    for (let i = 0; i < data.pathes.length; i++){
+    for (let i = 0; i < data.pathes.length; i++) {
         if (ctx.isPointInPath(data.pathes[i], x, y)) {
             
             let foundIndex = choicedColors.findIndex((element) => element == data.colors[i]);
@@ -102,22 +110,18 @@ canvas.onmousedown = (ev) => {
                         data.colors[index] = color;
                     } );
                     break;
-
-            }
-            // Check
-            function check(){
-                examenCell = data.colors[0];
-                for (let i=1; i<data.colors.length; i++)
-                    if (examenCell != data.colors[i])
-                        return false;
-                return true;
-            }
-            draw(); 
-            if (check()){
-                alert("Головоломка собрана!");
             }
             break;
         };
+    
+    }
+    draw(); 
+    
+}
+
+canvas.onmouseup = (ev) => {
+    if (check()){
+        alert("Головоломка собрана!");
     }
 }
 
@@ -129,6 +133,7 @@ function draw() {
         ctx.fillStyle = data.colors[i];
         ctx.fill(data.pathes[i]);
     }
+    
 }
 
 draw();
