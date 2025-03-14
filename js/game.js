@@ -105,8 +105,18 @@ canvas.onmousedown = (ev) => {
                     break;
 
             }
-            
-            draw();
+            // Check
+            function check(){
+                examenCell = data.colors[0];
+                for (let i=1; i<data.colors.length; i++)
+                    if (examenCell != data.colors[i])
+                        return false;
+                return true;
+            }
+            if check(){
+                alert("Головоломка собрана!");
+            }
+            draw(); 
             break;
         };
     }
