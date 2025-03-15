@@ -22,12 +22,14 @@ colors.forEach(
 );
 
 var choicedColors = [];
-for (let i=0; i<COLOR_COUNT; i++) {
-    let rindex = randInt(colors.length);
+function colorRefresher() {
+    for (let i=0; i<COLOR_COUNT; i++) {
+        let rindex = randInt(colors.length);
 
-    color = colors.find( (element, index) => index == rindex );
+        color = colors.find( (element, index) => index == rindex );
 
-    choicedColors.push(`#${color}`);
+        choicedColors.push(`#${color}`);
+    }
 }
 
 var canvas = document.getElementById("canvas");
@@ -60,6 +62,7 @@ var data = {
 };
 
 // Init
+colorRefresher();
 let i = 0;
 for (let x = 0; x < WIDTH; x++) {
     for (let y = 0; y < HEIGHT; y++) {
@@ -81,6 +84,47 @@ function check(){
         if (examenCell != data.colors[i])
             return false;
     return true;
+}
+function shuffle(){
+    colorRefresher();
+    var shuffleSteps = document.getElementById("shuffleSteps").value; 
+    for (let i = 0; i < shuffleSteps; i++) {
+        switch (SHAPE){
+            case 3:
+                break;
+            case 4:
+                // Randomly select any point
+                var randomPoint = new Point(randInt(WIDTH), randInt(HEIGHT));
+                // Calculate neighbours
+                n1 = new Point(randomPoint.x - 1, randomPoint.y);
+                n2 = new Point(randomPoint.x + 1, randomPoint.y);
+                n3 = new Point(randomPoint.x, randomPoint.y - 1);
+                n4 = new Point(randomPoint.x, randomPoint.y + 1);
+                data.coords.findIndex((element, index)=>{
+                    if (n1.x == element.x && n1.y == element.y ){
+                        n1 = index;
+                    }
+                    if (n2.x == element.x && n2.y == element.y){
+                        n2 = index;
+                    }
+                    if (n3.x == element.x && n3.y == element.y){
+                        n3 = index;
+                    }
+                    if (n4.x == element.x && n4.y == element.y){
+                        n4 = index;
+                    }
+                });
+                [n1, n2, n3, n4].forEach(index => {
+                        foundIndex = choicedColors.findIndex((element) => element == data.colors[index]);
+                        color = choicedColors[(foundIndex + 1)%COLOR_COUNT];
+                        data.colors[index] = color;
+                    });
+                break;
+            case 6:
+                break;
+        }
+    }
+    draw();
 }
 
 canvas.onmousedown = (ev) => {
@@ -133,7 +177,7 @@ canvas.onmousedown = (ev) => {
 
 canvas.onmouseup = (ev) => {
     if (check()){
-        // alert("Головоломка собрана!");
+        alert("Головоломка собрана!");
     }
 }
 

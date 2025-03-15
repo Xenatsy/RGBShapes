@@ -3,10 +3,19 @@
     <link rel="stylesheet" href="css/game.css">
 </head>
 <body>
-    <div>
+    <div id="menu-container">
+        <button id="button">Menu</button>
+        <div id="menu">
+            <span id="shuffle">
+                <a id="shuffle-button" onclick="shuffle()"> Shuffle </a>
+                <input id="shuffleSteps" type="number" min="1" placeholder="Shuffle steps">
+            </span>
+            <a id="back" href="options.html"> Back to the options </a>
+        </div>
+    </div>
+    <div id="game-container">
         <canvas id="canvas"></canvas>
     </div>
-    <a id="back" href="options.html"> Back to the options </a>
     <script src="js/gameMath.js"></script>
     <script src="js/game.js"></script>
 </body>
