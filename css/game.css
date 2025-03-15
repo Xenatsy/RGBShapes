@@ -15,13 +15,15 @@
     position: absolute;
 }
 #menu {
-    width: 100%;
     display: none;
 }
-#button {
+#button, #back, #menu {
     width: 100%;
 }
-a, #button, #shuffleSteps {
+#shuffleSteps, #shuffle-button {
+    width: 50%;
+}
+#back, #shuffle-button, #button, #shuffleSteps {
     text-align: center;
     align-content: center;
     display: block;
@@ -35,10 +37,6 @@ a, #button, #shuffleSteps {
     text-decoration: none;
 }
 
-
-#shuffleSteps, #shuffle-button {
-    width: 50%;
-}
 #shuffleSteps, #shuffle-button, #button, #back {
     height: 50;
 }
@@ -46,7 +44,7 @@ a, #button, #shuffleSteps {
     float: left;
 }
 
-a:hover, #button:hover, #shuffleSteps:hover {
+#button:hover, #shuffle-button:hover, #shuffleSteps:hover, #back:hover {
     background-color: black;
     color: white;
 }
