@@ -138,14 +138,38 @@ canvas.onmousedown = (ev) => {
             let foundIndex = choicedColors.findIndex((element) => element == data.colors[i]);
             let color = choicedColors[(foundIndex + 1)%COLOR_COUNT];
             data.colors[i] = color;
-
+            let n1, n2, n3, n4, n5, n6;
             switch (SHAPE){
                 case 3:
-
+                    data.coords.findIndex((element, index) => {
+                        if ((element.x == (data.coords[i].x + 1) % WIDTH) && (data.coords[i].y == element.y)){
+                            n1 = index;
+                        }
+                        if ((data.coords[i].x == (element.x + 1) % WIDTH) && (data.coords[i].y == element.y)){
+                            n2 = index;
+                        }
+                        if ((data.coords[i].x + data.coords[i].y) % 2 == 1) {
+                            if ((element.y == (data.coords[i].y + 1) % HEIGHT) && (data.coords[i].x == element.x)){
+                                if (data.coords[i].y + 1 != HEIGHT || HEIGHT % 2 == 0){
+                                    n3 = index;
+                                }
+                            }
+                        }
+                        else {
+                            if ((data.coords[i].y == (element.y + 1) % HEIGHT) && (data.coords[i].x == element.x)){
+                                if (data.coords[i].y != 0 || HEIGHT % 2 == 0){
+                                    n3 = index;
+                                }
+                            }
+                        }
+                    });
+                    [n1, n2, n3].forEach( index => {
+                        foundIndex = choicedColors.findIndex((element) => element == data.colors[index]);
+                        color = choicedColors[(foundIndex + 1)%COLOR_COUNT];
+                        data.colors[index] = color;
+                    } );
                     break;
                 case 4:
-                    
-                    let n1, n2, n3, n4;
                     data.coords.findIndex((element, index) => {
                         if ((element.x == (data.coords[i].x + 1) % WIDTH) && (data.coords[i].y == element.y)){
                             n1 = index;
@@ -166,6 +190,33 @@ canvas.onmousedown = (ev) => {
                         data.colors[index] = color;
                     } );
                     break;
+                case 6:
+                    // document.title = `${data.coords[i].x}/${data.coords[i].y}`;
+                    // data.coords.findIndex((element, index) => {
+                    //     if ((element.x == data.coords[i].x) && (data.coords[i].y == (element.y + 1) % HEIGHT)){
+                    //         n1 = index;
+                    //     }
+                    //     if ((element.x == data.coords[i].x) && ((data.coords[i].y + 1) % HEIGHT == element.y)){
+                    //         n2 = index;
+                    //     }
+                    //     if ((element.x == (data.coords[i].x + 1)% WIDTH) && (data.coords[i].y == element.y)){
+                    //         n3 = index;
+                    //     }
+                    //     if ((element.x + 1) % WIDTH == (data.coords[i].x) && (data.coords[i].y == element.y)){
+                    //         n4 = index;
+                    //     }
+                    //     if ((element.x == (data.coords[i].x + 1)% WIDTH) && (data.coords[i].y == (element.y + 1)%HEIGHT)){
+                    //         n5 = index;
+                    //     }
+                    //     if (((element.x + 1)% WIDTH== data.coords[i].x) && (data.coords[i].y == (element.y + 1)%HEIGHT)){
+                    //         n6 = index;
+                    //     }
+                    // });
+                    // [n1, n2, n3, n4, n5, n6].forEach( index => {
+                    //     foundIndex = choicedColors.findIndex((element) => element == data.colors[index]);
+                    //     color = choicedColors[(foundIndex + 1)%COLOR_COUNT];
+                    //     data.colors[index] = color;
+                    // } );
             }
             break;
         };

@@ -13,11 +13,10 @@ function go(){
     if ((0 == width) || (0 == height) || (0 == colors) || (shape == 0)){
         alert("Enter the full data!");
     } else {
-        if (shape == 4) {
-            window.location = "game.html";
-        }
-        else {
-            alert("This mode is not yet available...");
+        if (shape == 6){
+            alert("This mode is not yet available...")
+        } else {
+            document.location = "game.html";
         }
     }
 }
