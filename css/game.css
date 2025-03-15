@@ -8,43 +8,45 @@
     text-align: center;
 }
 
-#menu-container {
+#menu-container, #button, #shuffle, #back {
     position: relative;
+}
+#menu {
+    position: absolute;
 }
 #menu {
     width: 100%;
     display: none;
-    position: absolute;
 }
-
+#button {
+    width: 100%;
+}
 a, #button, #shuffleSteps {
     text-align: center;
     align-content: center;
     display: block;
     font-family: monospace;
     font-size: xx-large;
-    border: 0px solid;
-    width: 100%;
     background-color: white;
     color: black;
     transition:
         background-color 1s ease,
         color 1s ease;
     text-decoration: none;
-    height: calc(100%/2);
-    cursor: pointer;
 }
+
 
 #shuffleSteps, #shuffle-button {
     width: 50%;
 }
-#shuffle-button{
+#shuffleSteps, #shuffle-button, #button, #back {
+    height: 50;
+}
+#shuffle-button {
     float: left;
 }
-#button {
-    height: 5%;
-}
-a:hover, #button:hover {
+
+a:hover, #button:hover, #shuffleSteps:hover {
     background-color: black;
     color: white;
 }
