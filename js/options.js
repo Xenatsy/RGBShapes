@@ -14,7 +14,7 @@ function go(){
         alert("Enter the full data!");
     } else {
         if (shape == 6){
-            alert("This mode is not yet available...")
+            alert("This mode is not yet available...");
         } else {
             document.location = "game.html";
         }
