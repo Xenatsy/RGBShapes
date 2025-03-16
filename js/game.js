@@ -88,6 +88,9 @@ function check(){
 function shuffle(){
     colorRefresher();
     let shuffleSteps = document.getElementById("shuffleSteps").value; 
+    if (shuffleSteps > 0){
+        document.getElementById('menu-container').style.borderColor = '#F00';
+    }
     for (let i = 0; i < shuffleSteps; i++) {
         let randomPoint = new Point(randInt(WIDTH), randInt(HEIGHT));
         nes = getNeighbourhood(SHAPE, randomPoint, 1);
@@ -113,11 +116,9 @@ canvas.onmousedown = (ev) => {
     let x = ev.offsetX;
     let y = ev.offsetY;
 
-    console.clear();
     for (let i = 0; i < data.pathes.length; i++) {
         if (ctx.isPointInPath(data.pathes[i], x, y)) {
             let neighbourhood = getNeighbourhood(SHAPE, data.coords[i], 1);
-            console.log(neighbourhood);
             neighbourhood.forEach( el1 => {
                 data.coords.forEach( (el2, index) => {
                     if (el1.x == el2.x && el1.y == el2.y){
@@ -135,7 +136,7 @@ canvas.onmousedown = (ev) => {
 }
 
 canvas.onmouseup = (ev) => {
-    document.getElementById('game-container').style.borderColor = (check()? '#0F0': '#F00');
+    document.getElementById('menu-container').style.borderColor = (check()? '#0F0': '#F00');
 }
 
 function draw() {
