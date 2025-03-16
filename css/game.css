@@ -6,6 +6,9 @@
     overflow: auto;
     align-content: center;
     text-align: center;
+    border-style: solid;
+    border-width: 10;
+
 }
 
 #menu-container, #button, #shuffle, #back {

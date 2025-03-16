@@ -91,6 +91,7 @@ function shuffle(){
     for (let i = 0; i < shuffleSteps; i++) {
         let randomPoint = new Point(randInt(WIDTH), randInt(HEIGHT));
         nes = getNeighbourhood(SHAPE, randomPoint, 1);
+        
         data.coords.findIndex((el, index) => {
             for (let i = 0; i < nes.length; i++){
                 if (nes[i].x == el.x && nes[i].y == el.y ){
@@ -133,11 +134,9 @@ canvas.onmousedown = (ev) => {
 
 }
 
-// canvas.onmouseup = (ev) => {
-//     if (check()){
-//         alert("Головоломка собрана!");
-//     }
-// }
+canvas.onmouseup = (ev) => {
+    document.getElementById('game-container').style.borderColor = (check()? '#0F0': '#F00');
+}
 
 function draw() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
