@@ -47,8 +47,8 @@ switch (SHAPE){
         canvas.height = cell_size * HEIGHT;
         break;
     case 6:
-        canvas.width  = cell_size * (3 * WIDTH + 1) / 2;
-        canvas.height = 3 ** .5 * cell_size * HEIGHT + 3 ** .5 * cell_size / 2;
+        canvas.width  = cell_size * (3 * WIDTH + 1) / 2 / 2;
+        canvas.height = 3 ** .5 * cell_size * HEIGHT / 2 + 3 ** .5 * cell_size / 2 / 2;
         break;
 }
 
@@ -66,7 +66,7 @@ colorRefresher();
 let i = 0;
 for (let x = 0; x < WIDTH; x++) {
     for (let y = 0; y < HEIGHT; y++) {
-        data.polies.push(FitToBoard(SHAPE, x, y, cell_size));
+        data.polies.push(FitToBoard(SHAPE, x, y, SHAPE==6 ? cell_size / 2 : cell_size));
         data.pathes.push(new Path2D());
             data.polies[i].forEach(
                 element => { data.pathes[i].lineTo(element.x, element.y);}
@@ -87,43 +87,24 @@ function check(){
 }
 function shuffle(){
     colorRefresher();
-    var shuffleSteps = document.getElementById("shuffleSteps").value; 
+    let shuffleSteps = document.getElementById("shuffleSteps").value; 
     for (let i = 0; i < shuffleSteps; i++) {
-        switch (SHAPE){
-            case 3:
-                break;
-            case 4:
-                // Randomly select any point
-                var randomPoint = new Point(randInt(WIDTH), randInt(HEIGHT));
-                // Calculate neighbours
-                n1 = new Point(randomPoint.x - 1, randomPoint.y);
-                n2 = new Point(randomPoint.x + 1, randomPoint.y);
-                n3 = new Point(randomPoint.x, randomPoint.y - 1);
-                n4 = new Point(randomPoint.x, randomPoint.y + 1);
-                data.coords.findIndex((element, index)=>{
-                    if (n1.x == element.x && n1.y == element.y ){
-                        n1 = index;
-                    }
-                    if (n2.x == element.x && n2.y == element.y){
-                        n2 = index;
-                    }
-                    if (n3.x == element.x && n3.y == element.y){
-                        n3 = index;
-                    }
-                    if (n4.x == element.x && n4.y == element.y){
-                        n4 = index;
-                    }
-                });
-                [n1, n2, n3, n4].forEach(index => {
-                        foundIndex = choicedColors.findIndex((element) => element == data.colors[index]);
-                        color = choicedColors[(foundIndex + 1)%COLOR_COUNT];
-                        data.colors[index] = color;
-                    });
-                break;
-            case 6:
-                break;
+        let randomPoint = new Point(randInt(WIDTH), randInt(HEIGHT));
+        nes = getNeighbourhood(SHAPE, randomPoint, 1);
+        data.coords.findIndex((el, index) => {
+            for (let i = 0; i < nes.length; i++){
+                if (nes[i].x == el.x && nes[i].y == el.y ){
+                    nes[i] = index;
+                }
+            }
+        });
+
+        nes.forEach(index => {
+                foundIndex = choicedColors.findIndex((element) => element == data.colors[index]);
+                color = choicedColors[(foundIndex + 1)%COLOR_COUNT];
+                data.colors[index] = color;
+            });
         }
-    }
     draw();
 }
 
@@ -131,111 +112,35 @@ canvas.onmousedown = (ev) => {
     let x = ev.offsetX;
     let y = ev.offsetY;
 
-
+    console.clear();
     for (let i = 0; i < data.pathes.length; i++) {
         if (ctx.isPointInPath(data.pathes[i], x, y)) {
-            
-            let foundIndex = choicedColors.findIndex((element) => element == data.colors[i]);
-            let color = choicedColors[(foundIndex + 1)%COLOR_COUNT];
-            data.colors[i] = color;
-            let n1, n2, n3, n4, n5, n6;
-            switch (SHAPE){
-                case 3:
-                    data.coords.findIndex((element, index) => {
-                        if ((element.x == (data.coords[i].x + 1) % WIDTH) && (data.coords[i].y == element.y)){
-                            n1 = index;
-                        }
-                        if ((data.coords[i].x == (element.x + 1) % WIDTH) && (data.coords[i].y == element.y)){
-                            n2 = index;
-                        }
-                        if ((data.coords[i].x + data.coords[i].y) % 2 == 1) {
-                            if ((element.y == (data.coords[i].y + 1) % HEIGHT) && (data.coords[i].x == element.x)){
-                                if (data.coords[i].y + 1 != HEIGHT || HEIGHT % 2 == 0){
-                                    n3 = index;
-                                }
-                            }
-                        }
-                        else {
-                            if ((data.coords[i].y == (element.y + 1) % HEIGHT) && (data.coords[i].x == element.x)){
-                                if (data.coords[i].y != 0 || HEIGHT % 2 == 0){
-                                    n3 = index;
-                                }
-                            }
-                        }
-                    });
-                    [n1, n2, n3].forEach( index => {
-                        foundIndex = choicedColors.findIndex((element) => element == data.colors[index]);
-                        color = choicedColors[(foundIndex + 1)%COLOR_COUNT];
+            let neighbourhood = getNeighbourhood(SHAPE, data.coords[i], 1);
+            console.log(neighbourhood);
+            neighbourhood.forEach( el1 => {
+                data.coords.forEach( (el2, index) => {
+                    if (el1.x == el2.x && el1.y == el2.y){
+                        let foundIndex = choicedColors.findIndex((element) => element == data.colors[index]);
+                        let color = choicedColors[(foundIndex + 1)%COLOR_COUNT];
                         data.colors[index] = color;
-                    } );
-                    break;
-                case 4:
-                    data.coords.findIndex((element, index) => {
-                        if ((element.x == (data.coords[i].x + 1) % WIDTH) && (data.coords[i].y == element.y)){
-                            n1 = index;
-                        }
-                        if ((data.coords[i].x == (element.x + 1) % WIDTH) && (data.coords[i].y == element.y)){
-                            n2 = index;
-                        }
-                        if ((element.y == (data.coords[i].y + 1) % HEIGHT) && (data.coords[i].x == element.x)){
-                            n3 = index;
-                        }
-                        if ((data.coords[i].y == (element.y + 1) % HEIGHT) && (data.coords[i].x == element.x)){
-                            n4 = index;
-                        }
-                    });
-                    [n1, n2, n3, n4].forEach( index => {
-                        foundIndex = choicedColors.findIndex((element) => element == data.colors[index]);
-                        color = choicedColors[(foundIndex + 1)%COLOR_COUNT];
-                        data.colors[index] = color;
-                    } );
-                    break;
-                case 6:
-                    // document.title = `${data.coords[i].x}/${data.coords[i].y}`;
-                    // data.coords.findIndex((element, index) => {
-                    //     if ((element.x == data.coords[i].x) && (data.coords[i].y == (element.y + 1) % HEIGHT)){
-                    //         n1 = index;
-                    //     }
-                    //     if ((element.x == data.coords[i].x) && ((data.coords[i].y + 1) % HEIGHT == element.y)){
-                    //         n2 = index;
-                    //     }
-                    //     if ((element.x == (data.coords[i].x + 1)% WIDTH) && (data.coords[i].y == element.y)){
-                    //         n3 = index;
-                    //     }
-                    //     if ((element.x + 1) % WIDTH == (data.coords[i].x) && (data.coords[i].y == element.y)){
-                    //         n4 = index;
-                    //     }
-                    //     if ((element.x == (data.coords[i].x + 1)% WIDTH) && (data.coords[i].y == (element.y + 1)%HEIGHT)){
-                    //         n5 = index;
-                    //     }
-                    //     if (((element.x + 1)% WIDTH== data.coords[i].x) && (data.coords[i].y == (element.y + 1)%HEIGHT)){
-                    //         n6 = index;
-                    //     }
-                    // });
-                    // [n1, n2, n3, n4, n5, n6].forEach( index => {
-                    //     foundIndex = choicedColors.findIndex((element) => element == data.colors[index]);
-                    //     color = choicedColors[(foundIndex + 1)%COLOR_COUNT];
-                    //     data.colors[index] = color;
-                    // } );
-            }
+                    }
+                });
+            });
             break;
+            }
         };
-    
-    }
     draw(); 
-    
+
 }
 
-canvas.onmouseup = (ev) => {
-    if (check()){
-        alert("Головоломка собрана!");
-    }
-}
-
-
-
+// canvas.onmouseup = (ev) => {
+//     if (check()){
+//         alert("Головоломка собрана!");
+//     }
+// }
 
 function draw() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
     for (let i=0; i<data.pathes.length; i++){
         ctx.fillStyle = data.colors[i];
         ctx.fill(data.pathes[i]);
