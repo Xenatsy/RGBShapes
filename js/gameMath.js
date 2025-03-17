@@ -7,6 +7,23 @@ const max = Math.max;
 var scaleBySide = { 3: 3, 4: 2, 6: 1 };
 var rotationBySide = { 3: 30, 4: 45, 6: 60 };
 
+class CustomSet extends Set {
+    add(item) {
+      if (!this.has(item)) {
+        super.add(item);
+      }
+    }
+    
+    has(item) {
+      for (let existingItem of this.values()) {
+        if (JSON.stringify(existingItem) === JSON.stringify(item)) {
+          return true;
+        }
+      }
+      return false;
+    }
+  }
+
 function getNeighbourhood(shape, point, radius=1) {
     if (radius < 1) {
         return [];
@@ -47,13 +64,17 @@ function getNeighbourhood(shape, point, radius=1) {
     neighbourhood = neighbourhood.concat(point).concat(
         neighbourhood.map(el => getNeighbourhood(shape, el, radius-1))
     ).flat();
-    return Array.from(new Set(neighbourhood));
+
+    return Array.from(new CustomSet(neighbourhood));
 }
 
 class Point {
     constructor(x, y) {
         this.x = x;
         this.y = y;
+    }
+    isEqual(to){
+        return this.x == to.x && this.y == to.y;
     }
 }
 
