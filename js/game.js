@@ -96,11 +96,11 @@ function shuffle() {
         let nes = getNeighbourhood(SHAPE, randomPoint);
         let indices = [];
 
-        nes.forEach(el1 => {
-            if (el1.x == -1) { el1.x = WIDTH - 1 }
-            if (el1.y == -1) { el1.y = HEIGHT - 1; }
-            if (el1.x == WIDTH) { el1.x = 0 }
-            if (el1.y == HEIGHT) { el1.y = 0 }
+        nes.forEach(el => {
+            if (el.x == -1) { el.x = WIDTH - 1; }
+            if (el.y == -1) { el.y = HEIGHT - 1; }
+            if (el.x == WIDTH) { el.x = 0; }
+            if (el.y == HEIGHT) { el.y = 0; }
         });
         data.coords.forEach((el1, index) =>
             nes.forEach(el2 => {
@@ -125,11 +125,11 @@ canvas.onmousedown = (ev) => {
         if (ctx.isPointInPath(data.pathes[i], x, y)) {
             let neighbourhood = getNeighbourhood(SHAPE, data.coords[i]);
             neighbourhood.forEach(el => {
-                if (el.x == -1) { el.x = WIDTH - 1 }
+                if (el.x == -1) { el.x = WIDTH - 1; }
                 if (el.y == -1) { el.y = HEIGHT - 1; }
-                if (el.x == WIDTH) { el.x = 0 }
-                if (el.y == HEIGHT) { el.y = 0 }
-            })
+                if (el.x == WIDTH) { el.x = 0; }
+                if (el.y == HEIGHT) { el.y = 0; }
+            });
             neighbourhood.forEach(el1 => {
                 data.coords.forEach((el2, index) => {
                     if (el1.isEqual(el2)) {
